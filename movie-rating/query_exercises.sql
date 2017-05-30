@@ -1,23 +1,19 @@
 /* These exercises are from the Stanford SQL course.
 
 You've started a new movie-rating website, and you've been collecting data
-on reviewers' ratings of various movies. There's not much data yet, but you
-can still try out some interesting queries. Here's the schema: 
+on reviewers' ratings of various movies.
+Here's the schema for each table:
 
-Movie ( mID,  (movie with ID)
-	    title,   (movie title)
-	    year,   (release year)
-	   director (a director)
-	   )
+Movie (mID,     (Movie's unique ID)
+	     title,   (Title of the movie)
+	     year,    (Movie release year)
+	     director (Movie director))
 
-Reviewer ( rID,  (reviewer with ID number)
-		  name (reviewer name)
-	        )
+Reviewer (rID,  (Movie reviewer ID)
+		      name  (Reviewer name))
 
-Rating ( rID,  (reviewer rID)
-             mID, (movie mID )
-	     stars, (number of stars rating (1-5) )
-	     ratingDate (ratingDate)
-	   )
-
+Rating (rID,    (Reviewer rID)
+        mID,    (Movie's unique ID)
+	      stars,  (Number of stars rating (1-5) for movie)
+	      ratingDate (Date movie was rated))
 */
