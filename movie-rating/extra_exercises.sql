@@ -95,7 +95,7 @@ HAVING COUNT(*) >= 3
 return the titles of all movies directed by them, along with the director
 name. Sort by director name, then movie title.*/
 SELECT m.title,m.director
-FROM (SELECT mID,director FROM Movie GROUP BY director HAVING COUNT(mID) > 1) AS extra
+FROM (SELECT director FROM Movie GROUP BY director HAVING COUNT(mID) > 1) AS extra
 JOIN Movie AS m ON extra.director = m.director
 ORDER BY m.director, m.title
 
