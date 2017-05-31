@@ -22,7 +22,8 @@ Rating (rID,    (Reviewer rID)
 
 --Q1: Find the names of all reviewers who rated Gone with the Wind.
 SELECT DISTINCT(rev.name)
-FROM Movie AS m JOIN Rating AS R ON m.mID = r.mID
+FROM Movie AS m
+JOIN Rating AS R ON m.mID = r.mID
 AND m.title = 'Gone with the Wind'
 JOIN Reviewer AS rev ON r.rID = rev.rID
 
@@ -31,7 +32,8 @@ the movie, return the reviewer name, movie title, and number of stars. */
 SELECT DISTINCT(rev.name),
        m.title,
        r.stars
-FROM Movie as m JOIN Rating AS r ON m.mID = r.mID
+FROM Movie as m
+JOIN Rating AS r ON m.mID = r.mID
 JOIN Reviewer AS rev ON r.rID = rev.rID
 WHERE m.director = rev.name
 
@@ -79,9 +81,14 @@ ORDER BY n1.name,n2.name
 --Second way:
 SELECT DISTINCT rev1.name,
                 rev2.name
-FROM Rating AS r1, Reviewer AS rev1, Rating AS r2, Reviewer AS rev2
-WHERE r1.mID = r2.mID AND r1.rID = rev1.rID AND r2.rID = rev2.rID
-AND rev1.name < rev2.name
+FROM Rating AS r1,
+     Reviewer AS rev1,
+     Rating AS r2,
+     Reviewer AS rev2
+WHERE r1.mID = r2.mID
+  AND r1.rID = rev1.rID
+  AND r2.rID = rev2.rID
+  AND rev1.name < rev2.name
 ORDER BY rev1.name,rev2.name
 
 /*Q6: For each rating that is the lowest (fewest stars) currently in the
@@ -111,7 +118,8 @@ ORDER BY rat.avg_stars DESC,m.title
 /*Q8: Find the names of all reviewers who have contributed three or more
 ratings.*/
 SELECT rev.name
-FROM Rating AS r JOIN Reviewer AS rev ON r.rID = rev.rID
+FROM Rating AS r
+JOIN Reviewer AS rev ON r.rID = rev.rID
 GROUP BY r.rID
 HAVING COUNT(*) >= 3
 
