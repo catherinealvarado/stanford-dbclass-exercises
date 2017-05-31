@@ -38,13 +38,15 @@ the title is fine.)*/
 SELECT title
 FROM Movie
 UNION
-SELECT rev.name FROM Reviewer AS rev
+SELECT rev.name
+FROM Reviewer AS rev
 ORDER BY title,rev.name
 
 --Q4: Find the titles of all movies not reviewed by Chris Jackson.
 SELECT m.title
 FROM Movie as m
-WHERE m.mID NOT IN (SELECT r.mID FROM Rating AS r JOIN Reviewer AS rev
+WHERE m.mID NOT IN (SELECT r.mID
+                    FROM Rating AS r JOIN Reviewer AS rev
                      ON rev.rID = r.rID
                     WHERE rev.name = 'Chris Jackson')
 
@@ -54,9 +56,11 @@ pair reviewers with themselves, and include each pair only once. For each
 pair, return the names in the pair in alphabetical order.*/
 --First way:
 SELECT DISTINCT n1.name,n2.name
-FROM (SELECT rev.rID AS rID,rev.name AS name,r.mID AS mID FROM Rating AS r
+FROM (SELECT rev.rID AS rID,rev.name AS name,r.mID AS mID
+      FROM Rating AS r
       JOIN Reviewer AS rev ON r.rID = rev.rID) AS n1
-JOIN (SELECT rev.rID AS rID,rev.name AS name,r.mID AS mID FROM Rating AS r
+JOIN (SELECT rev.rID AS rID,rev.name AS name,r.mID AS mID
+      FROM Rating AS r
       JOIN Reviewer AS rev ON r.rID = rev.rID) AS n2
 ON n1.mID = n2.mID AND n1.name < n2.name
 ORDER BY n1.name,n2.name
@@ -71,7 +75,8 @@ ORDER BY rev1.name,rev2.name
 /*Q6: For each rating that is the lowest (fewest stars) currently in the
 database, return the reviewer name, movie title, and number of stars.*/
 SELECT rev.name,m.title,r.stars
-FROM (SELECT MIN(stars) AS min_s FROM Rating) as min
+FROM (SELECT MIN(stars) AS min_s
+      FROM Rating) as min
      JOIN Rating AS r ON min.min_s = r.stars
      JOIN Reviewer AS rev ON r.rID = rev.rID
      JOIN Movie AS m ON r.mID = m.mID
@@ -80,7 +85,9 @@ FROM (SELECT MIN(stars) AS min_s FROM Rating) as min
 lowest-rated. If two or more movies have the same average rating, list
 them in alphabetical order. */
 SELECT m.title, rat.avg_stars
-FROM (SELECT mID, AVG(stars) AS avg_stars FROM Rating GROUP BY mID) as rat
+FROM (SELECT mID, AVG(stars) AS avg_stars
+      FROM Rating
+      GROUP BY mID) as rat
 JOIN Movie AS m ON rat.mID = m.mID
 ORDER BY rat.avg_stars DESC,m.title
 
@@ -95,7 +102,10 @@ HAVING COUNT(*) >= 3
 return the titles of all movies directed by them, along with the director
 name. Sort by director name, then movie title.*/
 SELECT m.title,m.director
-FROM (SELECT director FROM Movie GROUP BY director HAVING COUNT(mID) > 1) AS extra
+FROM (SELECT director
+      FROM Movie
+      GROUP BY director
+      HAVING COUNT(mID) > 1) AS extra
 JOIN Movie AS m ON extra.director = m.director
 ORDER BY m.director, m.title
 
