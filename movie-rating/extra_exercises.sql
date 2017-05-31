@@ -83,3 +83,17 @@ SELECT m.title, rat.avg_stars
 FROM (SELECT mID, AVG(stars) AS avg_stars FROM Rating GROUP BY mID) as rat
 JOIN Movie AS m ON rat.mID = m.mID
 ORDER BY rat.avg_stars DESC,m.title
+
+/*Q8: Find the names of all reviewers who have contributed three or more
+ratings.*/
+SELECT rev.name
+FROM Rating AS r JOIN Reviewer AS rev ON r.rID = rev.rID
+GROUP BY r.rID
+HAVING COUNT(*) >= 3
+
+/*Q9: Some directors directed more than one movie. For all such directors,
+return the titles of all movies directed by them, along with the director
+name. Sort by director name, then movie title.*/
+
+/**/
+/**/
