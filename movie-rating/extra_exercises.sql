@@ -168,6 +168,9 @@ HAVING avg =
    ORDER BY avg_stars DESC
    LIMIT 1)
 
-
-
-/**/
+/*
+Find the movie(s) with the lowest average rating. Return the movie title(s)
+and average rating. (Hint: This query may be more difficult to write in
+SQLite than other systems; you might think of it as finding the lowest
+average rating and then choosing the movie(s) with that average rating.) 
+*/
