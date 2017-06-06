@@ -135,5 +135,39 @@ FROM
 JOIN Movie AS m ON extra.director = m.director
 ORDER BY m.director, m.title
 
-/**/
+/*
+Find the movie(s) with the highest average rating. Return the movie
+title(s) and average rating. (Hint: This query is more difficult to write
+in SQLite than other systems; you might think of it as finding the highest
+average rating and then choosing the movie(s) with that average rating.)
+*/
+-- First try:
+SELECT m.title,
+       max_avg
+FROM
+  (SELECT MAX(avg) AS max_avg
+   FROM (SELECT AVG(stars) AS avg
+         FROM Rating
+         GROUP BY mID) AS tmp1) AS tmp2
+JOIN
+  (SELECT mID,AVG(stars) AS avg
+   FROM Rating
+   GROUP BY mID) AS tmp3 ON tmp3.avg = tmp2.max_avg
+JOIN Movie AS m ON tmp3.mID = m.mID
+
+-- Second try:
+SELECT m.title,
+       AVG(r.stars) AS avg
+FROM Movie AS m
+JOIN Rating AS r ON m.mID = r.mID
+GROUP BY r.mID
+HAVING avg =
+  (SELECT AVG(stars) AS avg_stars
+   FROM Rating
+   GROUP BY mID
+   ORDER BY avg_stars DESC
+   LIMIT 1)
+
+
+
 /**/
