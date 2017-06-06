@@ -172,5 +172,15 @@ HAVING avg =
 Find the movie(s) with the lowest average rating. Return the movie title(s)
 and average rating. (Hint: This query may be more difficult to write in
 SQLite than other systems; you might think of it as finding the lowest
-average rating and then choosing the movie(s) with that average rating.) 
+average rating and then choosing the movie(s) with that average rating.)
 */
+SELECT m.title, AVG(r.stars) AS avg
+FROM Movie AS m
+JOIN Rating AS r ON m.mID = r.mID
+GROUP BY r.mID
+HAVING avg =
+  (SELECT AVG(stars) AS st
+   FROM Rating
+   GROUP BY mID
+   ORDER BY st ASC
+   LIMIT 1)
