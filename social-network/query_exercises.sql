@@ -35,10 +35,14 @@ JOIN Highschooler ON f.ID1 = Highschooler.ID
 /*Q3: For every student who likes someone 2 or more grades younger than
 themselves, return that student's name and grade, and the name and grade of
 the student they like.*/
-SELECT h1.name,h1.grade,h2.name,h2.grade
+SELECT h1.name,
+       h1.grade,
+       h2.name,
+       h2.grade
 FROM Likes l
 JOIN Highschooler h1 ON l.ID1 = h1.ID
-JOIN Highschooler h2 ON l.ID2 = h2.ID AND h1.grade - h2.grade >= 2
+JOIN Highschooler h2 ON l.ID2 = h2.ID
+AND h1.grade - h2.grade >= 2
 
 /*Q4: For every pair of students who both like each other, return the name
 and grade of both students. Include each pair only once, with the two names
@@ -60,11 +64,31 @@ ORDER BY h1.name ASC,
 who likes or is liked) and return their names and grades. Sort by grade,
 then by name within each grade.
 */
-SELECT h.name,h.grade
+SELECT h.name,
+       h.grade
 FROM Highschooler h
 LEFT JOIN
 (SELECT ID1 AS ID FROM LIKES
  UNION
  SELECT ID2 FROM LIKES) all_id ON h.ID = all_id.ID
 WHERE all_id.ID IS NULL
-ORDER BY h.grade,h.name
+ORDER BY h.grade,
+         h.name
+
+/*Q5: For every situation where student A likes student B, but we have no
+information about whom B likes (that is, B does not appear as an ID1 in
+the Likes table), return A and B's names and grades.
+*/
+SELECT h1.name,
+       h1.grade,
+       h2.name,
+       h2.grade
+FROM
+  (SELECT ID1,
+          ID2
+   FROM Likes
+   WHERE ID2 NOT IN
+       (SELECT ID1
+        FROM LIKES)) pair
+JOIN Highschooler h1 ON h1.ID = pair.ID1
+JOIN Highschooler h2 ON h2.ID = pair.ID2
