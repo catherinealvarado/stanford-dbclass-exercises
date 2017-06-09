@@ -20,5 +20,7 @@ Likes
  ID2) 
 Note: Liking someone is not necessarily mutual, so if (123, 456) is in the
 Likes table, there is no guarantee that (456, 123) is also present. 
-
 */
+
+/*Q1: Find the names of all students who are friends with someone named
+Gabriel.*/
